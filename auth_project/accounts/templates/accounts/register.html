@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Account | Auth Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'accounts/css/style.css' %}" />
+</head>
+<body>
+    <div class="bg-pattern" aria-hidden="true"></div>
+
+    <main class="auth-wrapper">
+        <div class="auth-card auth-card--wide">
+            <div class="auth-brand">
+                <div class="brand-icon">A</div>
+                <h1>Create Account</h1>
+                <p class="brand-sub">Join us and get started in minutes</p>
+            </div>
+
+            <form method="POST" action="{% url 'register' %}" class="auth-form">
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                <div class="form-error">
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="input-group">
+                    <label for="id_username">Username</label>
+                    <input type="text" name="username" id="id_username" placeholder="Choose a username" value="{{ form.username.value|default_if_none:'' }}" required autofocus />
+                    {% if form.username.errors %}
+                        <div class="field-error">{{ form.username.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="input-group">
+                    <label for="id_email">Email</label>
+                    <input type="email" name="email" id="id_email" placeholder="Enter your email" value="{{ form.email.value|default_if_none:'' }}" required />
+                    {% if form.email.errors %}
+                        <div class="field-error">{{ form.email.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="input-group">
+                    <label for="id_password1">Password</label>
+                    <div class="password-wrap">
+                        <input type="password" name="password1" id="id_password1" placeholder="Create a password" required />
+                        <button type="button" class="toggle-pass" onclick="togglePassword('id_password1')" aria-label="Toggle visibility">👁</button>
+                    </div>
+                    {% if form.password1.errors %}
+                        <div class="field-error">{{ form.password1.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="input-group">
+                    <label for="id_password2">Confirm Password</label>
+                    <div class="password-wrap">
+                        <input type="password" name="password2" id="id_password2" placeholder="Confirm your password" required />
+                        <button type="button" class="toggle-pass" onclick="togglePassword('id_password2')" aria-label="Toggle visibility">👁</button>
+                    </div>
+                    {% if form.password2.errors %}
+                        <div class="field-error">{{ form.password2.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn-primary">Create Account</button>
+
+                <p class="auth-alt">
+                    Already have an account?
+                    <a href="{% url 'login' %}">Sign in</a>
+                </p>
+            </form>
+        </div>
+    </main>
+
+    <script src="{% static 'accounts/js/script.js' %}"></script>
+</body>
+</html>
+

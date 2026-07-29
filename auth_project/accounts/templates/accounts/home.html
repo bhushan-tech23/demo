@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard | Auth Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'accounts/css/style.css' %}" />
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <div class="brand-icon brand-icon--sm">A</div>
+            <span class="navbar-brand">Auth Portal</span>
+        </div>
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn-outline">Sign Out</button>
+        </form>
+    </nav>
+
+    <main class="dashboard">
+        <div class="dashboard-card">
+            <div class="avatar">{{ user.username|first|upper }}</div>
+            <h2>Welcome, {{ user.username }}!</h2>
+            <p class="dashboard-email">{{ user.email }}</p>
+            <p class="dashboard-text">You are now signed in. This is your personal dashboard.</p>
+        </div>
+    </main>
+</body>
+</html>
+
